@@ -1278,6 +1278,7 @@ function toggleLang() {
   const cur = body.getAttribute('data-lang');
   const next = cur === 'he' ? 'en' : 'he';
   body.setAttribute('data-lang', next);
+  document.documentElement.setAttribute('data-lang', next);
   document.documentElement.setAttribute('lang', next);
   document.documentElement.setAttribute('dir', next === 'he' ? 'rtl' : 'ltr');
   document.getElementById('langBtn').textContent = next === 'he' ? 'EN' : 'עב';
