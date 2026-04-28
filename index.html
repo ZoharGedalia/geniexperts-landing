@@ -1208,9 +1208,10 @@ section[id] { scroll-margin-top: 20px; }
           <span class="lang-en">Leave Your Details, We'll Be in Touch</span>
         </div>
         <form id="contactForm">
-          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+          <input type="hidden" name="access_key" value="d2f67147-88c3-4b2f-89c5-9434c96e9cb9">
           <input type="hidden" name="subject" value="פנייה חדשה מאתר GeniExperts">
           <input type="hidden" name="from_name" value="GeniExperts Website">
+          <input type="hidden" name="email" value="zohar@geniexperts.com, amit@geniexperts.com">
           <input type="checkbox" name="botcheck" style="display:none;">
           <div class="field">
             <label>
@@ -1354,13 +1355,6 @@ form.addEventListener('submit', async e => {
   statusEl.classList.add('show');
   if (form.botcheck.checked) return;
   const data = new FormData(form);
-  if (data.get('access_key') === 'YOUR_WEB3FORMS_KEY') {
-    statusEl.className = 'form-status show error';
-    statusEl.innerHTML = lang === 'he'
-      ? '⚠️ הטופס לא מחובר עדיין. אנא צרו קשר בטלפון או במייל.'
-      : '⚠️ Form not yet connected. Please call or email us directly.';
-    return;
-  }
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
