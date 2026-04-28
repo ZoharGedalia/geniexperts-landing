@@ -56,7 +56,7 @@ a { color:inherit; text-decoration:none; }
   background: rgba(251,249,243,0.92);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line-soft);
-  z-index: 1000; transition: all .3s ease;
+  z-index: 1000; transition: background .3s ease, box-shadow .3s ease, border-color .3s ease;
 }
 .site-header.scrolled {
   background: rgba(251,249,243,0.98);
@@ -596,7 +596,7 @@ section[id] { scroll-margin-top: 20px; }
   font-size: 26px; font-weight: 700;
   color: var(--navy); margin-bottom: 8px;
 }
-[data-lang="en"] .form-h { font-family: 'Playfair Display', serif; font-weight: 600; }
+[data-lang="en"] .form-h { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 23px; }
 .form-sub { font-size: 14px; color: var(--ink-muted); margin-bottom: 28px; }
 [data-lang="en"] .form-sub { font-size: 15px; font-family: 'Cormorant Garamond', serif; }
 .field { margin-bottom: 18px; }
@@ -711,7 +711,7 @@ section[id] { scroll-margin-top: 20px; }
       <a href="#about" class="nav-link"><span class="lang-he">על המכון</span><span class="lang-en">About</span></a>
       <a href="#services" class="nav-link"><span class="lang-he">שירותים</span><span class="lang-en">Services</span></a>
       <a href="#cases" class="nav-link"><span class="lang-he">מחקרים</span><span class="lang-en">Studies</span></a>
-      <a href="#founder" class="nav-link"><span class="lang-he">ד״ר לאה הבר-גדליה</span><span class="lang-en">Dr. Lea Haber Gedalia</span></a>
+      <a href="#founder" class="nav-link"><span class="lang-he">ד״ר לאה הבר-גדליה</span><span class="lang-en">Dr. Lea Haber-Gedalia</span></a>
       <a href="#contact" class="nav-link"><span class="lang-he">צרו קשר</span><span class="lang-en">Contact</span></a>
       <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
     </div>
@@ -733,7 +733,7 @@ section[id] { scroll-margin-top: 20px; }
       </h1>
       <p class="hero-sub">
         <span class="lang-he">מעל עשרים וחמש שנות ניסיון בחקר אילנות יוחסין, איתור יורשים והכנת חוות דעת מומחה לבתי משפט בארץ ובעולם, בראשות ד״ר לאה הבר-גדליה.</span>
-        <span class="lang-en">Over twenty-five years of expertise in genealogical research, heir search, and expert testimony for courts of law worldwide, led by Dr. Lea Haber Gedalia.</span>
+        <span class="lang-en">Over twenty-five years of expertise in genealogical research, heir search, and expert testimony for courts of law worldwide, led by Dr. Lea Haber-Gedalia.</span>
       </p>
       <div class="hero-actions">
         <a href="#contact" class="btn btn-primary">
@@ -781,7 +781,7 @@ section[id] { scroll-margin-top: 20px; }
           <strong>GeniExperts</strong> is a leading Israeli-based genealogical research institute, providing specialized services to courts, law firms, institutions, and private clients worldwide. We focus on complex genealogical investigations: locating heirs, establishing inheritance rights, foreign citizenship applications, and building <strong>comprehensive family lineages spanning diverse geographies and multiple parental lines</strong>.
         </p>
         <p class="lang-en">
-          Under the leadership of <strong>Dr. Lea Haber Gedalia</strong>, a certified senior genealogist, our team combines <strong>academic rigor, legal expertise, and an international research network</strong> to solve the most complex genealogical puzzles.
+          Under the leadership of <strong>Dr. Lea Haber-Gedalia</strong>, a certified senior genealogist, our team combines <strong>academic rigor, legal expertise, and an international research network</strong> to solve the most complex genealogical puzzles.
         </p>
       </div>
       <div class="reveal">
@@ -1069,7 +1069,7 @@ section[id] { scroll-margin-top: 20px; }
     <div class="founder-grid">
       <div class="founder-image-wrap reveal">
         <div class="founder-image">
-          <img src="" alt="Dr. Lea Haber Gedalia" id="founderImg">
+          <img src="" alt="Dr. Lea Haber-Gedalia" id="founderImg">
         </div>
       </div>
       <div class="founder-content reveal">
@@ -1079,7 +1079,7 @@ section[id] { scroll-margin-top: 20px; }
         </div>
         <h2 class="founder-name">
           <span class="lang-he">ד״ר לאה הבר-גדליה</span>
-          <span class="lang-en">Dr. Lea Haber Gedalia</span>
+          <span class="lang-en">Dr. Lea Haber-Gedalia</span>
         </h2>
         <div class="founder-role">
           <span class="lang-he">חוקרת גנאלוגית בכירה · בעלת תואר שלישי מהאוניברסיטה העברית</span>
@@ -1096,13 +1096,13 @@ section[id] { scroll-margin-top: 20px; }
             ד״ר הבר-גדליה <strong>הקימה ומובילה</strong> את GeniExperts כמכון מחקר מוביל בישראל. הדוחות הגנאלוגיים המיוצרים על ידי המכון <strong>מוכרים על ידי מערכת המשפט בישראל</strong>.
           </p>
           <p class="lang-en">
-            Dr. Lea Haber Gedalia is a leading Israeli genealogical researcher with <strong>over 25 years of experience</strong> in family tree research, lineage investigations, Jewish diaspora community studies, and legal-genealogical services. She earned her Ph.D. from the Hebrew University of Jerusalem in 2004 <em>(Thesis: The Change of Collective Identities in War and Peace)</em>.
+            Dr. Lea Haber-Gedalia is a leading Israeli genealogical researcher with <strong>over 25 years of experience</strong> in family tree research, lineage investigations, Jewish diaspora community studies, and legal-genealogical services. She earned her Ph.D. from the Hebrew University of Jerusalem in 2004 <em>(Thesis: The Change of Collective Identities in War and Peace)</em>.
           </p>
           <p class="lang-en">
             She has served as both <strong>Chair and Secretary General of the Israeli Association for the Study of Family Roots (IGS)</strong>, organized and led international genealogy conferences, authored numerous genealogical records (community ledgers, Eastern European Jewish community studies) published in archives in Israel and abroad, and serves as a senior lecturer in genealogy courses.
           </p>
           <p class="lang-en">
-            Dr. Haber Gedalia <strong>founded and leads</strong> GeniExperts as a top research institute in Israel. The genealogical reports produced by the institute are <strong>recognized by the Israeli court system</strong>.
+            Dr. Haber-Gedalia <strong>founded and leads</strong> GeniExperts as a top research institute in Israel. The genealogical reports produced by the institute are <strong>recognized by the Israeli court system</strong>.
           </p>
         </div>
       </div>
@@ -1133,7 +1133,7 @@ section[id] { scroll-margin-top: 20px; }
           <div class="contact-info">
             <div class="contact-name">
               <span class="lang-he">ד״ר לאה הבר-גדליה</span>
-              <span class="lang-en">Dr. Lea Haber Gedalia</span>
+              <span class="lang-en">Dr. Lea Haber-Gedalia</span>
             </div>
             <div class="contact-role">
               <span class="lang-he">מייסדת ומנהלת המכון</span>
@@ -1205,7 +1205,7 @@ section[id] { scroll-margin-top: 20px; }
       <div class="contact-form-wrap reveal">
         <div class="form-h">
           <span class="lang-he">השאירו פרטים ונחזור אליכם בהקדם</span>
-          <span class="lang-en">Leave Your Details, We'll Get Back to You Soon</span>
+          <span class="lang-en">Leave Your Details, We'll Be in Touch</span>
         </div>
         <form id="contactForm">
           <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
@@ -1262,7 +1262,7 @@ section[id] { scroll-margin-top: 20px; }
   <div class="footer-divider"></div>
   <div class="footer-meta">
     <span class="lang-he">© 2026 GeniExperts · בראשות ד״ר לאה הבר-גדליה · כל הזכויות שמורות</span>
-    <span class="lang-en">© 2026 GeniExperts · Founded by Dr. Lea Haber Gedalia · All Rights Reserved</span>
+    <span class="lang-en">© 2026 GeniExperts · Founded by Dr. Lea Haber-Gedalia · All Rights Reserved</span>
   </div>
 </footer>
 
@@ -1289,7 +1289,7 @@ function toggleLang() {
   document.getElementById('langBtn').textContent = next === 'he' ? 'EN' : 'עב';
   document.title = next === 'he'
     ? 'GeniExperts | מכון למחקרים גנאלוגיים | ד״ר לאה הבר-גדליה'
-    : 'GeniExperts | Genealogical Research Institute | Dr. Lea Haber Gedalia';
+    : 'GeniExperts | Genealogical Research Institute | Dr. Lea Haber-Gedalia';
 }
 
 const siteHeader = document.getElementById('siteHeader');
