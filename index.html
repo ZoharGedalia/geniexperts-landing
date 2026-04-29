@@ -1130,7 +1130,7 @@ section[id] { scroll-margin-top: 20px; }
     <div class="contact-grid">
       <div class="contact-people reveal">
         <div class="contact-person">
-          <div class="contact-avatar">LG</div>
+          <div class="contact-avatar"><span class="lang-he">לג</span><span class="lang-en">LG</span></div>
           <div class="contact-info">
             <div class="contact-name">
               <span class="lang-he">ד״ר לאה הבר-גדליה</span>
@@ -1153,7 +1153,7 @@ section[id] { scroll-margin-top: 20px; }
           </div>
         </div>
         <div class="contact-person">
-          <div class="contact-avatar">ZG</div>
+          <div class="contact-avatar"><span class="lang-he">זג</span><span class="lang-en">ZG</span></div>
           <div class="contact-info">
             <div class="contact-name">
               <span class="lang-he">זוהר גדליה</span>
@@ -1176,7 +1176,7 @@ section[id] { scroll-margin-top: 20px; }
           </div>
         </div>
         <div class="contact-person">
-          <div class="contact-avatar">AG</div>
+          <div class="contact-avatar"><span class="lang-he">עג</span><span class="lang-en">AG</span></div>
           <div class="contact-info">
             <div class="contact-name">
               <span class="lang-he">עמית גדליה</span>
@@ -1282,7 +1282,7 @@ document.getElementById('footerLogo').src = ASSETS.logoWhite;
 
 function toggleLang() {
   const body = document.body;
-  const cur = body.getAttribute('data-lang');
+  const cur = document.documentElement.getAttribute('data-lang');
   const next = cur === 'he' ? 'en' : 'he';
   body.setAttribute('data-lang', next);
   document.documentElement.setAttribute('data-lang', next);
