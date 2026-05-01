@@ -1,0 +1,8 @@
+# robots.txt for geniexperts.com
+# Generated 2026-05-01
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://geniexperts.com/sitemap.xml
