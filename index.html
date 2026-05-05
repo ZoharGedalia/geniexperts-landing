@@ -573,6 +573,129 @@ section[id] { scroll-margin-top: 20px; }
 .case-result strong { color: var(--gold); font-weight: 700; }
 [data-lang="en"] .case-result { font-size: 14px; font-family: 'Cormorant Garamond', serif; }
 
+/* INSIGHTS - מרכז הידע הגנאלוגי */
+/* באותו DNA של case-card אבל עם תוספות: thumbnail, סוג תוכן, מטא-נתונים */
+.insights-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.insight-card {
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  padding: 0; position: relative; overflow: hidden;
+  transition: all .4s ease;
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+}
+.insight-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; background: var(--gold);
+  transform: scaleY(0); transform-origin: top;
+  transition: transform .4s ease;
+}
+[data-lang="en"] .insight-card::before { left: auto; right: 0; }
+.insight-card:hover {
+  border-color: var(--line);
+}
+.insight-card:hover::before { transform: scaleY(1); }
+.insight-thumb {
+  position: relative; width: 100%; aspect-ratio: 16/9;
+  background: var(--navy); overflow: hidden;
+}
+.insight-thumb img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .6s ease;
+}
+/* .insight-card:hover .insight-thumb img { transform: scale(1.04); } */ /* יוחזר כשהכרטיסים יהיו לחיצים */
+.insight-thumb-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(14,36,68,0) 50%, rgba(14,36,68,0.55) 100%);
+}
+.insight-type-badge {
+  position: absolute; top: 14px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 6px 12px; background: rgba(251,249,243,0.95); color: var(--navy);
+  font-family: 'Frank Ruhl Libre', serif;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+[dir="rtl"] .insight-type-badge { right: 14px; }
+[dir="ltr"] .insight-type-badge { left: 14px; }
+[data-lang="en"] .insight-type-badge { font-family: 'Cormorant Garamond', serif; font-size: 12px; }
+.insight-type-badge.lecture { color: #b8963e; }
+.insight-type-badge.deck { color: #5a7d4f; }
+.insight-type-badge.article { color: #1a3556; }
+.insight-body {
+  padding: 28px 28px 24px; display: flex; flex-direction: column;
+  flex-grow: 1;
+}
+.insight-meta {
+  font-size: 11px; color: var(--ink-muted);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 12px; font-weight: 600;
+}
+[data-lang="en"] .insight-meta { font-family: 'Cormorant Garamond', serif; font-size: 12px; }
+.insight-card h3 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 22px; line-height: 1.35; color: var(--navy);
+  margin-bottom: 14px; font-weight: 600;
+}
+[data-lang="en"] .insight-card h3 { font-family: 'Playfair Display', serif; font-size: 24px; }
+.insight-card p {
+  font-size: 15px; line-height: 1.7; color: var(--ink-soft);
+  margin-bottom: 20px; flex-grow: 1;
+}
+[data-lang="en"] .insight-card p { font-size: 17px; font-family: 'Cormorant Garamond', serif; }
+.insight-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding-top: 18px; border-top: 1px solid var(--line-soft);
+  margin-top: auto;
+}
+.insight-tag {
+  font-size: 11px; color: var(--ink-muted);
+  padding: 4px 10px; background: var(--cream-deep);
+  border-radius: 999px; font-weight: 500;
+}
+[data-lang="en"] .insight-tag { font-family: 'Cormorant Garamond', serif; font-size: 12px; }
+.insights-cta {
+  text-align: center; margin-top: 56px;
+  padding-top: 40px; border-top: 1px solid var(--line-soft);
+}
+.insights-cta p {
+  font-size: 16px; color: var(--ink-muted);
+  margin-bottom: 16px;
+  font-family: 'Frank Ruhl Libre', serif;
+}
+[data-lang="en"] .insights-cta p { font-family: 'Cormorant Garamond', serif; font-size: 19px; }
+
+/* "ראה את כל מרכז הידע" - לחצן בסגנון אדיטוריאלי */
+.insights-see-all {
+  display: inline-block;
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 17px;
+  color: var(--navy);
+  font-weight: 600;
+  letter-spacing: .5px;
+  padding: 14px 32px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  transition: all .25s ease;
+}
+[data-lang="en"] .insights-see-all { font-family: 'Playfair Display', serif; font-size: 18px; }
+.insights-see-all:hover {
+  background: var(--gold);
+  color: var(--paper);
+}
+
+/* מצב טעינה ושגיאה לגריד הביתי */
+.home-insights-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-muted);
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 15px;
+}
+[data-lang="en"] .home-insights-loading { font-family: 'Cormorant Garamond', serif; font-size: 16px; }
+
 /* FOUNDER */
 .section-founder { background: var(--cream); padding: 120px 0; }
 .founder-grid {
@@ -769,6 +892,7 @@ section[id] { scroll-margin-top: 20px; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .why-grid { grid-template-columns: repeat(2, 1fr); gap: 50px 30px; }
   .cases-grid { grid-template-columns: 1fr; }
+  .insights-grid { grid-template-columns: 1fr; }
   .founder-grid { grid-template-columns: 1fr; gap: 60px; text-align: center; }
   .founder-credentials { text-align: right; }
   [data-lang="en"] .founder-credentials { text-align: left; }
@@ -812,6 +936,7 @@ section[id] { scroll-margin-top: 20px; }
       <a href="#about" class="nav-link"><span class="lang-he">על המכון</span><span class="lang-en">About</span></a>
       <a href="#services" class="nav-link"><span class="lang-he">שירותים</span><span class="lang-en">Services</span></a>
       <a href="#cases" class="nav-link"><span class="lang-he">מחקרים</span><span class="lang-en">Studies</span></a>
+      <a href="/insights/" class="nav-link"><span class="lang-he">מרכז ידע גנאלוגי</span><span class="lang-en">Insights</span></a>
       <a href="#founder" class="nav-link"><span class="lang-he">ד״ר לאה הבר-גדליה</span><span class="lang-en">Dr. Lea Haber-Gedalia</span></a>
       <a href="#contact" class="nav-link"><span class="lang-he">צרו קשר</span><span class="lang-en">Contact</span></a>
       <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
@@ -1165,6 +1290,36 @@ section[id] { scroll-margin-top: 20px; }
   </div>
 </section>
 
+<section class="section" id="insights">
+  <div class="container">
+    <div class="section-title reveal">
+      <div class="section-eyebrow">
+        <span class="lang-he">מרכז ידע גנאלוגי</span>
+        <span class="lang-en">Genealogy Knowledge Center</span>
+      </div>
+      <h2 class="section-h">
+        <span class="lang-he">גנאלוגיה <span class="it">יהודית</span> — מגירוש בבל ועד ימינו</span>
+        <span class="lang-en">Jewish <span class="it">Genealogy</span> — From the Babylonian Exile to Our Days</span>
+      </h2>
+      <p class="section-lead">
+        <span class="lang-he">ידע גנאלוגי חובק עולם, מסודר לפי קטגוריות. כתבים והרצאות של ד״ר לאה הבר-גדליה, תרגומים נבחרים וכתיבה ייעודית של GeniExperts.</span>
+        <span class="lang-en">A globally-spanning genealogy archive, organized by category. Writings and lectures by Dr. Lea Haber-Gedalia, selected translations, and original work by GeniExperts.</span>
+      </p>
+    </div>
+
+    <!-- הגריד נטען דינמית מ-Supabase דרך הסקריפט בסוף הקובץ -->
+    <div class="insights-grid reveal" id="homeInsightsGrid"></div>
+
+    <div class="insights-cta reveal">
+      <a href="/insights/" class="insights-see-all">
+        <span class="lang-he">לכל מרכז הידע →</span>
+        <span class="lang-en">See all insights →</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
 <section class="section section-founder" id="founder">
   <div class="container">
     <div class="founder-grid">
@@ -1476,6 +1631,150 @@ form.addEventListener('submit', async e => {
       : '✗ An error occurred. Please try again or contact us directly.';
   }
 });
+</script>
+
+<!-- ============================================================
+     מרכז ידע — טעינת 3 הפריטים האחרונים מ-Supabase
+     ============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+  // פרטי חיבור ל-Supabase (Publishable key מיועד לחשיפה — RLS מגן)
+  const SUPABASE_URL = 'https://hkrwqylposgzoixirteq.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_PL37tIyRL1raBNuw19_ENQ__B_QRPOz';
+
+  // תוויות סוג תוכן
+  const TYPE_LABELS = {
+    lecture: { he: '▶ הרצאה', en: '▶ Lecture' },
+    deck:    { he: '◐ מצגת',  en: '◐ Deck' },
+    article: { he: '✎ מאמר',  en: '✎ Article' }
+  };
+
+  // המרה ממבנה Supabase למבנה פנימי
+  function mapRow(row) {
+    return {
+      slug: row.slug, type: row.type,
+      dateLabel: { he: row.date_label_he, en: row.date_label_en },
+      title:     { he: row.title_he,      en: row.title_en      },
+      summary:   { he: row.summary_he,    en: row.summary_en    },
+      tags: Array.isArray(row.tags) ? row.tags : [],
+      thumb: row.thumb_type === 'image'
+        ? { type: 'image', src: row.thumb_src,
+            alt: { he: row.thumb_alt_he || '', en: row.thumb_alt_en || '' } }
+        : { type: 'custom',
+            titleHe:  row.thumb_title_he || '',
+            titleEn:  row.thumb_title_en || '',
+            subtitle: row.thumb_subtitle || '' }
+    };
+  }
+
+  function renderThumb(item) {
+    const badge = TYPE_LABELS[item.type] || { he: '', en: '' };
+    let inner = '';
+    if (item.thumb.type === 'image') {
+      inner = `<img src="${item.thumb.src}" alt="${item.thumb.alt.he}" loading="lazy">
+               <div class="insight-thumb-overlay"></div>`;
+    } else {
+      inner = `<div style="background:linear-gradient(135deg,#1a3556 0%,#0E2444 100%); display:flex; align-items:center; justify-content:center; height:100%;">
+                 <div style="text-align:center; color:#faf3df; padding:20px;">
+                   <div style="font-family:'Frank Ruhl Libre',serif; font-size:30px; font-weight:600; line-height:1.2; margin-bottom:8px;">
+                     <span class="lang-he">${item.thumb.titleHe}</span>
+                     <span class="lang-en">${item.thumb.titleEn}</span>
+                   </div>
+                   <div style="font-size:14px; opacity:0.7; letter-spacing:1px;">${item.thumb.subtitle}</div>
+                 </div>
+               </div>`;
+    }
+    return `<div class="insight-thumb"${item.thumb.type==='custom' ? ' style="background:linear-gradient(135deg,#1a3556 0%,#0E2444 100%);"' : ''}>
+              ${inner}
+              <span class="insight-type-badge ${item.type}">
+                <span class="lang-he">${badge.he}</span>
+                <span class="lang-en">${badge.en}</span>
+              </span>
+            </div>`;
+  }
+
+  function renderTags(tags) {
+    return tags.map(t => `<span class="insight-tag">
+      <span class="lang-he">${t.he}</span>
+      <span class="lang-en">${t.en}</span>
+    </span>`).join('');
+  }
+
+  function renderCard(item) {
+    // ⚠️ כרטיסים אינם לחיצים כרגע — עמודי פריט בודד עוד לא נבנו.
+    // כשייבנו, נחזיר ל-<a href="/insights/${item.slug}/">.
+    return `<div class="insight-card" data-type="${item.type}" data-slug="${item.slug}" style="cursor:default;">
+      ${renderThumb(item)}
+      <div class="insight-body">
+        <div class="insight-meta">
+          <span class="lang-he">${item.dateLabel.he}</span>
+          <span class="lang-en">${item.dateLabel.en}</span>
+        </div>
+        <h3>
+          <span class="lang-he">${item.title.he}</span>
+          <span class="lang-en">${item.title.en}</span>
+        </h3>
+        <p>
+          <span class="lang-he">${item.summary.he}</span>
+          <span class="lang-en">${item.summary.en}</span>
+        </p>
+        <div class="insight-tags">${renderTags(item.tags)}</div>
+      </div>
+    </div>`;
+  }
+
+  // טעינה ראשית
+  async function loadHomeInsights() {
+    const grid = document.getElementById('homeInsightsGrid');
+    if (!grid) return; // המעטפת לא קיימת — לא קריטי, יוצאים בשקט
+
+    if (!window.supabase) {
+      console.error('Supabase library לא נטענה');
+      grid.innerHTML = '';
+      return;
+    }
+
+    grid.innerHTML = `<div class="home-insights-loading">
+      <span class="lang-he">טוען...</span>
+      <span class="lang-en">Loading...</span>
+    </div>`;
+
+    try {
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { data, error } = await sb
+        .from('insights')
+        .select('*')
+        .eq('is_published', true)
+        .order('publish_date', { ascending: false })
+        .limit(3);
+
+      if (error) {
+        console.error('שגיאת Supabase:', error);
+        grid.innerHTML = ''; // אם נכשל, פשוט נעלם — ה-CTA "ראה הכל" עדיין יוביל לעמוד המלא
+        return;
+      }
+
+      const items = (data || []).map(mapRow);
+      if (items.length === 0) {
+        grid.innerHTML = ''; // אין פריטים — לא מציגים כלום
+        return;
+      }
+
+      grid.innerHTML = items.map(renderCard).join('');
+    } catch (err) {
+      console.error('שגיאה בטעינת מרכז הידע לדף הבית:', err);
+      grid.innerHTML = '';
+    }
+  }
+
+  // התחלה כשה-DOM מוכן
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadHomeInsights);
+  } else {
+    loadHomeInsights();
+  }
+})();
 </script>
 </body>
 </html>
