@@ -731,8 +731,14 @@ function renderThumb(item) {
 
   let thumbInner = '';
   if (thumb.type === 'image') {
+    // Fallback: אם התמונה הראשית לא נטענה (למשל maxresdefault לסרטון יוטיוב ישן),
+    // ננסה גרסה איכותית אחרת. hqdefault תמיד קיים לכל סרטון יוטיוב.
+    const fallback = thumb.src && thumb.src.includes('maxresdefault.jpg')
+      ? thumb.src.replace('maxresdefault.jpg', 'hqdefault.jpg')
+      : thumb.src;
     thumbInner = `
-      <img src="${thumb.src}" alt="${thumb.alt.he}" loading="lazy">
+      <img src="${thumb.src}" alt="${thumb.alt.he}" loading="lazy"
+           onerror="if(this.src!=='${fallback}'){this.src='${fallback}';}">
       <div class="insight-thumb-overlay"></div>
     `;
   } else if (thumb.type === 'custom') {
