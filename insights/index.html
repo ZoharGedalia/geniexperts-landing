@@ -144,30 +144,31 @@ a { color:inherit; text-decoration:none; }
 }
 [data-lang="en"] .brand-text { font-family: 'Playfair Display', serif; }
 .brand-text em { color: var(--gold); font-style: normal; }
-.nav-links { display:flex; gap:30px; align-items:center; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
 .nav-link {
-  font-size: 14px; color: var(--ink-soft); font-weight: 500;
-  position: relative; padding: 4px 0;
-  transition: color .2s ease;
+  font-family: 'Heebo', 'Cormorant Garamond', serif;
+  font-size: 14px; font-weight: 500; color: var(--ink-soft);
+  letter-spacing: 0.3px; position: relative; padding: 4px 0;
+  transition: color .25s;
+}
+[data-lang="en"] .nav-link {
+  font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600;
 }
 .nav-link::after {
-  content:''; position:absolute; bottom:0; left:0; right:0;
-  height: 1px; background: var(--gold);
-  transform: scaleX(0); transform-origin: center;
-  transition: transform .3s ease;
+  content:''; position:absolute; bottom: -4px; left:0;
+  width: 0; height: 1px; background: var(--gold);
+  transition: width .3s ease;
 }
-.nav-link:hover { color: var(--navy); }
-.nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+.nav-link:hover { color: var(--gold); }
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
 .nav-link.active { color: var(--navy); font-weight: 600; }
 .lang-btn {
-  background: transparent; border: 1px solid var(--gold);
-  color: var(--navy); font-weight: 600;
-  padding: 6px 14px; cursor: pointer;
-  font-size: 12px; letter-spacing: 1px;
-  font-family: inherit;
-  transition: all .2s ease;
+  background: transparent; border: 1px solid var(--line); color: var(--ink);
+  padding: 7px 14px; font-family: 'Heebo', sans-serif; font-size: 12px;
+  font-weight: 600; letter-spacing: 1px; cursor: pointer; border-radius: 2px;
+  transition: all .25s; text-transform: uppercase;
 }
-.lang-btn:hover { background: var(--gold); color: #fff; }
+.lang-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
 .menu-toggle { display:none; background:none; border:none; font-size:26px; cursor:pointer; color: var(--navy); }
 
 /* ============================================================
@@ -193,17 +194,22 @@ a { color:inherit; text-decoration:none; }
 
 .page-header { margin-bottom: 70px; max-width: 880px; }
 .page-eyebrow {
-  font-size: 12px; color: var(--gold);
-  letter-spacing: 3px; text-transform: uppercase;
-  margin-bottom: 18px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: 'Heebo', sans-serif; font-size: 14px; letter-spacing: 3.5px;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 22px; font-weight: 700;
 }
-[data-lang="en"] .page-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 13px; }
+[data-lang="en"] .page-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; }
+.page-eyebrow::before, .page-eyebrow::after {
+  content: ''; width: 32px; height: 1.5px; background: var(--gold);
+}
 .page-h {
   font-family: 'Frank Ruhl Libre', serif;
-  font-size: 56px; line-height: 1.15; color: var(--navy);
-  font-weight: 700; margin-bottom: 24px;
+  font-size: clamp(34px, 4.5vw, 56px); line-height: 1.1; color: var(--navy);
+  font-weight: 700; margin-bottom: 18px;
+  letter-spacing: -0.5px;
 }
-[data-lang="en"] .page-h { font-family: 'Playfair Display', serif; }
+[data-lang="en"] .page-h { font-family: 'Playfair Display', serif; font-weight: 600; }
 .page-h .it { font-style: italic; color: var(--gold); font-weight: 500; }
 .page-lead {
   font-size: 19px; color: var(--ink-soft);
@@ -486,12 +492,13 @@ a { color:inherit; text-decoration:none; }
     <!-- Breadcrumb -->
     <nav class="breadcrumb reveal" aria-label="breadcrumb">
       <a href="/"><span class="lang-he">בית</span><span class="lang-en">Home</span></a>
-      <span class="breadcrumb-sep">›</span>
-      <span><span class="lang-he">מרכז ידע גנאלוגי</span><span class="lang-en">Genealogy Insights</span></span>
     </nav>
 
     <!-- Page Header -->
     <header class="page-header reveal">
+      <div class="page-eyebrow">
+        <span class="lang-he">מרכז ידע גנאלוגי</span><span class="lang-en">Genealogy Insights</span>
+      </div>
       <h1 class="page-h">
         <span class="lang-he">גנאלוגיה <span class="it">יהודית</span> — מגירוש בבל ועד ימינו</span>
         <span class="lang-en">Jewish <span class="it">Genealogy</span> — From the Babylonian Exile to Our Days</span>
