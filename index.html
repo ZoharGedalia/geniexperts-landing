@@ -1672,7 +1672,13 @@ form.addEventListener('submit', async e => {
     const badge = TYPE_LABELS[item.type] || { he: '', en: '' };
     let inner = '';
     if (item.thumb.type === 'image') {
-      inner = `<img src="${item.thumb.src}" alt="${item.thumb.alt.he}" loading="lazy">
+      // אותו fallback כמו באגם הידע: אם maxresdefault.jpg של יוטיוב חוזר עם
+      // placeholder זעיר (נקודות), נחליף אוטומטית ל-hqdefault שתמיד קיים.
+      const fallback = item.thumb.src && item.thumb.src.includes('maxresdefault.jpg')
+        ? item.thumb.src.replace('maxresdefault.jpg', 'hqdefault.jpg')
+        : '';
+      inner = `<img src="${item.thumb.src}" alt="${item.thumb.alt.he}" loading="lazy"
+                    ${fallback ? `data-fallback="${fallback}"` : ''}>
                <div class="insight-thumb-overlay"></div>`;
     } else {
       inner = `<div style="background:linear-gradient(135deg,#1a3556 0%,#0E2444 100%); display:flex; align-items:center; justify-content:center; height:100%;">
@@ -1762,10 +1768,36 @@ form.addEventListener('submit', async e => {
       }
 
       grid.innerHTML = items.map(renderCard).join('');
+      attachThumbFallbacks();
     } catch (err) {
       console.error('שגיאה בטעינת מרכז הידע לדף הבית:', err);
       grid.innerHTML = '';
     }
+  }
+
+  /* טיפול בתמונות יוטיוב שמחזירות placeholder זעיר במקום maxresdefault.
+     אותו פתרון כמו באגם הידע - נחליף ל-hqdefault שתמיד קיים. */
+  function attachThumbFallbacks() {
+    document.querySelectorAll('.insight-thumb img[data-fallback]').forEach(img => {
+      const swapToFallback = () => {
+        const fallback = img.getAttribute('data-fallback');
+        if (fallback && img.src !== fallback) {
+          img.src = fallback;
+          img.removeAttribute('data-fallback');
+        }
+      };
+      img.addEventListener('error', swapToFallback);
+      const checkSize = () => {
+        if (img.naturalWidth > 0 && img.naturalWidth < 200) {
+          swapToFallback();
+        }
+      };
+      if (img.complete) {
+        checkSize();
+      } else {
+        img.addEventListener('load', checkSize);
+      }
+    });
   }
 
   // התחלה כשה-DOM מוכן
