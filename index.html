@@ -907,7 +907,16 @@ section[id] { scroll-margin-top: 20px; }
     flex-direction: column; background: var(--paper);
     border-bottom: 1px solid var(--line-soft);
     padding: 20px 32px; box-shadow: var(--shadow);
+    z-index: 101;
   }
+  /* כשהתפריט פתוח - נועלים גלילת body ומציגים overlay כהה */
+  body.menu-open { overflow: hidden; }
+  body.menu-open::after {
+    content: ''; position: fixed; inset: 64px 0 0 0;
+    background: rgba(14, 36, 68, 0.4); z-index: 99;
+    animation: fadeInOverlay .25s ease;
+  }
+  @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
   .section { padding: 40px 0 80px; }
   .container { padding: 0 24px; }
   .nav-wrap { padding: 12px 24px; }
@@ -1554,6 +1563,12 @@ function toggleLang() {
   window.history.replaceState({}, '', url);
   // עדכון כל הקישורים החיצוניים (ל-/insights/) שיכללו את השפה החדשה
   syncCrossPageLinks(next);
+  // סגירת המבורגר אם פתוח - עקביות עם שאר הקישורים בתפריט
+  const nav = document.getElementById('navLinks');
+  if (nav && nav.classList.contains('open')) {
+    nav.classList.remove('open');
+    document.body.classList.remove('menu-open');
+  }
 }
 
 /* מעדכן את כל הקישורים שמובילים מהעמוד הזה לעמוד אחר באתר,
@@ -1603,12 +1618,40 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         target.scrollIntoView({behavior: 'smooth', block: 'start'});
       }
       document.getElementById('navLinks').classList.remove('open');
+      document.body.classList.remove('menu-open');
     }
   });
 });
 
 function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
-function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+
+/* פותח/סוגר את תפריט המבורגר במובייל.
+   - נועל גלילת body כשפתוח (אסתטיקה מודרנית)
+   - מציג שכבת overlay כהה מאחורי התפריט
+   - לחיצה על ה-overlay סוגרת את התפריט
+   - לחיצה על ESC גם סוגרת */
+function toggleMenu() {
+  const nav = document.getElementById('navLinks');
+  const isOpen = nav.classList.toggle('open');
+  document.body.classList.toggle('menu-open', isOpen);
+}
+function closeMenu() {
+  document.getElementById('navLinks').classList.remove('open');
+  document.body.classList.remove('menu-open');
+}
+// סגירה בלחיצה על overlay (כל מקום שאינו התפריט עצמו או הכפתור)
+document.addEventListener('click', (e) => {
+  const nav = document.getElementById('navLinks');
+  if (!nav || !nav.classList.contains('open')) return;
+  // אם הקליק היה בתוך התפריט או על הכפתור עצמו - לא סוגרים
+  if (nav.contains(e.target)) return;
+  if (e.target.closest('.menu-toggle')) return;
+  closeMenu();
+});
+// סגירה ב-ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMenu();
+});
 
 // Smart phone click: mobile = call, desktop = WhatsApp
 function phoneClick(e, el) {
