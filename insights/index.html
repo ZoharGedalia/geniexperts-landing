@@ -836,24 +836,37 @@ function renderInsights(filter) {
 }
 
 /* מחבר event listener לכל תמונת thumbnail עם data-fallback.
-   אם התמונה הראשית נכשלה (404 או שגיאה אחרת), מחליפים אוטומטית ל-fallback.
-   זה הפתרון לסרטוני יוטיוב ישנים שאין להם maxresdefault.jpg. */
+   טיפול בשני מקרים:
+   1. התמונה נכשלה (404 אמיתי) - error event מופעל
+   2. יוטיוב מחזיר placeholder זעיר 120x90 (במקום maxresdefault שאין) - לא נחשב שגיאה
+      אז בודקים את הגודל אחרי load: אם פחות מ-200px רוחב, זה placeholder ולא תמונה אמיתית. */
 function attachThumbFallbacks() {
   document.querySelectorAll('.insight-thumb img[data-fallback]').forEach(img => {
-    img.addEventListener('error', function handleError() {
-      const fallback = this.getAttribute('data-fallback');
-      if (fallback && this.src !== fallback) {
-        this.src = fallback;
-        // אחרי שהחלפנו - מסירים את ה-listener שלא יעבוד שוב
-        this.removeEventListener('error', handleError);
-      }
-    });
-    // אם התמונה כבר נכשלה לפני שהוספנו את ה-listener (קאש למשל) - בדיקה נוספת
-    if (img.complete && img.naturalWidth === 0) {
+    const swapToFallback = () => {
       const fallback = img.getAttribute('data-fallback');
       if (fallback && img.src !== fallback) {
         img.src = fallback;
+        img.removeAttribute('data-fallback'); // למנוע לולאה אם גם ה-fallback קטן
       }
+    };
+
+    // מקרה 1: שגיאת טעינה אמיתית (404)
+    img.addEventListener('error', swapToFallback);
+
+    // מקרה 2: התמונה נטענה אבל היא placeholder זעיר של יוטיוב
+    const checkSize = () => {
+      // יוטיוב placeholder הוא 120x90. תמונה אמיתית היא 1280x720 או 480x360
+      if (img.naturalWidth > 0 && img.naturalWidth < 200) {
+        swapToFallback();
+      }
+    };
+
+    if (img.complete) {
+      // התמונה כבר נטענה (קאש או טעינה מהירה) - בדוק עכשיו
+      checkSize();
+    } else {
+      // התמונה עדיין נטענת - בדוק כשתסתיים
+      img.addEventListener('load', checkSize);
     }
   });
 }
