@@ -1702,9 +1702,9 @@ form.addEventListener('submit', async e => {
   }
 
   function renderCard(item) {
-    // ⚠️ כרטיסים אינם לחיצים כרגע — עמודי פריט בודד עוד לא נבנו.
-    // כשייבנו, נחזיר ל-<a href="/insights/${item.slug}/">.
-    return `<div class="insight-card" data-type="${item.type}" data-slug="${item.slug}" style="cursor:default;">
+    // הכרטיסים מובילים לעמוד מרכז הידע המלא (/insights/).
+    // כשייבנו עמודי פריט בודד בעתיד, נחליף ל-/insights/${item.slug}/
+    return `<a href="/insights/" class="insight-card" data-type="${item.type}" data-slug="${item.slug}">
       ${renderThumb(item)}
       <div class="insight-body">
         <div class="insight-meta">
@@ -1721,7 +1721,7 @@ form.addEventListener('submit', async e => {
         </p>
         <div class="insight-tags">${renderTags(item.tags)}</div>
       </div>
-    </div>`;
+    </a>`;
   }
 
   // טעינה ראשית
