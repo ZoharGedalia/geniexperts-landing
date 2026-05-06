@@ -621,6 +621,17 @@ function toggleLang() {
   if (newLang === 'en') url.searchParams.set('lang', 'en');
   else url.searchParams.delete('lang');
   window.history.replaceState({}, '', url);
+  // עדכון כל הקישורים שמובילים מהעמוד הזה לעמוד אחר באתר
+  syncCrossPageLinks(newLang);
+}
+
+/* מעדכן את כל הקישורים שמובילים מהעמוד הזה לעמוד אחר,
+   כך שיכללו את השפה הנוכחית. ככה השפה משתמרת בין דפים.
+   קישורים שמכוסים: כל <a> עם href שווה ל-"/" (חזרה לדף הבית). */
+function syncCrossPageLinks(lang) {
+  document.querySelectorAll('a[href="/"], a[href="/?lang=en"]').forEach(a => {
+    a.href = lang === 'en' ? '/?lang=en' : '/';
+  });
 }
 
 // טעינת שפה מ-URL בעלייה
@@ -632,6 +643,8 @@ function toggleLang() {
     document.documentElement.setAttribute('lang', 'en');
     document.documentElement.setAttribute('dir', 'ltr');
     document.getElementById('langBtn').textContent = 'HE';
+    // אחרי שה-DOM מוכן - מסנכרן גם את הקישורים
+    document.addEventListener('DOMContentLoaded', () => syncCrossPageLinks('en'));
   }
 })();
 
