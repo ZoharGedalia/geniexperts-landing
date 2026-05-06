@@ -970,7 +970,7 @@ function injectItemsSchema(items) {
         "alternateName": item.title.en,
         "description": item.summary.he,
         "thumbnailUrl": item.thumb.src || `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`,
-        "uploadDate": item.publishDate,
+        "uploadDate": item.date,
         "contentUrl": item.sourceUrl,
         "embedUrl": item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}` : item.sourceUrl,
         "actor": PERSON,
@@ -986,7 +986,7 @@ function injectItemsSchema(items) {
         "description": item.summary.he,
         "author": PERSON,
         "publisher": item.sourceName?.he?.includes('עיל') ? ORG_ILAM : ORG_GENIEXPERTS,
-        "datePublished": item.publishDate,
+        "datePublished": item.date,
         "inLanguage": "he",
         "url": item.sourceUrl || baseUrl
       };
@@ -999,7 +999,7 @@ function injectItemsSchema(items) {
         "description": item.summary.he,
         "author": PERSON,
         "publisher": ORG_GENIEXPERTS,
-        "datePublished": item.publishDate,
+        "datePublished": item.date,
         "inLanguage": "he",
         "url": item.sourceUrl || baseUrl
       };
