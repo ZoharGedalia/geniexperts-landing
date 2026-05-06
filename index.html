@@ -1547,7 +1547,45 @@ function toggleLang() {
   document.title = next === 'he'
     ? 'GeniExperts | מכון למחקרים גנאלוגיים | ד״ר לאה הבר-גדליה'
     : 'GeniExperts | Genealogical Research Institute | Dr. Lea Haber-Gedalia';
+  // שמירה ב-URL — כדי שהשפה תישמר בעת ניווט וגם תזכר בעת רענון
+  const url = new URL(window.location);
+  if (next === 'en') url.searchParams.set('lang', 'en');
+  else url.searchParams.delete('lang');
+  window.history.replaceState({}, '', url);
+  // עדכון כל הקישורים החיצוניים (ל-/insights/) שיכללו את השפה החדשה
+  syncCrossPageLinks(next);
 }
+
+/* מעדכן את כל הקישורים שמובילים מהעמוד הזה לעמוד אחר באתר,
+   כך שיכללו את השפה הנוכחית. ככה השפה משתמרת בין דפים.
+   קישורים שמכוסים: כל <a> עם href שמתחיל ב-/insights/. */
+function syncCrossPageLinks(lang) {
+  document.querySelectorAll('a[href^="/insights/"]').forEach(a => {
+    // בונים מחדש את ה-href עם השפה הנוכחית
+    const baseHref = a.getAttribute('href').split('?')[0]; // מסירים פרמטרים קודמים
+    a.href = lang === 'en' ? `${baseHref}?lang=en` : baseHref;
+  });
+}
+
+/* קליטת שפה מ-URL בעת טעינת העמוד.
+   כשמגיעים מאגם הידע באנגלית עם ?lang=en, העמוד יטען מיד באנגלית. */
+(function initLangFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const langParam = params.get('lang');
+  if (langParam === 'en') {
+    document.documentElement.setAttribute('data-lang', 'en');
+    document.documentElement.setAttribute('lang', 'en');
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.body && document.body.setAttribute('data-lang', 'en');
+    document.title = 'GeniExperts | Genealogical Research Institute | Dr. Lea Haber-Gedalia';
+    // הכפתור והקישורים מתעדכנים אחרי טעינת ה-DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('langBtn');
+      if (btn) btn.textContent = 'עב';
+      syncCrossPageLinks('en');
+    });
+  }
+})();
 
 const siteHeader = document.getElementById('siteHeader');
 window.addEventListener('scroll', () => {
@@ -1708,8 +1746,8 @@ form.addEventListener('submit', async e => {
   }
 
   function renderCard(item) {
-    // הכרטיסים מובילים לעמוד מרכז הידע המלא (/insights/).
-    // כשייבנו עמודי פריט בודד בעתיד, נחליף ל-/insights/${item.slug}/
+    // הכרטיס מוביל לאגם הידע. הקישור מסונכרן לשפה הנוכחית
+    // ע"י syncCrossPageLinks() שרץ אחרי הצביעה.
     return `<a href="/insights/" class="insight-card" data-type="${item.type}" data-slug="${item.slug}">
       ${renderThumb(item)}
       <div class="insight-body">
@@ -1769,6 +1807,9 @@ form.addEventListener('submit', async e => {
 
       grid.innerHTML = items.map(renderCard).join('');
       attachThumbFallbacks();
+      // אחרי הצביעה - מסנכרן את הקישורים של הטיזרים לשפה הנוכחית
+      const currentLang = document.documentElement.getAttribute('data-lang') || 'he';
+      if (typeof syncCrossPageLinks === 'function') syncCrossPageLinks(currentLang);
     } catch (err) {
       console.error('שגיאה בטעינת מרכז הידע לדף הבית:', err);
       grid.innerHTML = '';
