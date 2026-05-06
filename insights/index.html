@@ -287,6 +287,19 @@ a { color:inherit; text-decoration:none; }
   border-color: var(--line);
 }
 .insight-card:hover::before { transform: scaleY(1); }
+
+/* כרטיס בלי קישור (למשל מצגת שעדיין לא הועלתה) - לא לחיץ */
+.insight-card--no-link {
+  cursor: default;
+}
+.insight-card--no-link:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--line-soft);
+}
+.insight-card--no-link:hover::before { transform: scaleY(0); }
+.insight-card--no-link:hover .insight-thumb img { transform: none; }
+
 .insight-thumb {
   position: relative; width: 100%; aspect-ratio: 16/9;
   background: var(--navy); overflow: hidden;
@@ -759,8 +772,16 @@ function renderTags(tags) {
 
 /* בונה HTML של כרטיס בודד */
 function renderCard(item) {
+  // אם יש קישור - הכרטיס הוא <a> שפותח בטאב חדש
+  // אם אין קישור (למשל מצגת שעדיין לא הועלתה) - הכרטיס הוא <div> לא קליקבילי
+  const hasLink = !!item.sourceUrl;
+  const tag = hasLink ? 'a' : 'div';
+  const linkAttrs = hasLink
+    ? `href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer"`
+    : '';
+
   return `
-    <a href="/insights/${item.slug}/" class="insight-card" data-type="${item.type}">
+    <${tag} ${linkAttrs} class="insight-card${hasLink ? '' : ' insight-card--no-link'}" data-type="${item.type}">
       ${renderThumb(item)}
       <div class="insight-body">
         <div class="insight-meta">
@@ -779,7 +800,7 @@ function renderCard(item) {
           ${renderTags(item.tags)}
         </div>
       </div>
-    </a>
+    </${tag}>
   `;
 }
 
