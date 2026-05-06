@@ -925,6 +925,113 @@ function showErrorState() {
 }
 
 /* ============================================================
+   SEO — Schema.org דינמית לכל פריט
+   ============================================================
+   בונה JSON-LD לכל פריט שנטען מסופאבייס וזורק אותו לתוך <head>.
+   גוגל קורא את זה ומבין מה כל פריט: סרטון יוטיוב / מצגת / כתבה.
+   זה לא משפיע על המראה — רק על תוצאות חיפוש בגוגל. */
+function injectItemsSchema(items) {
+  if (!items || items.length === 0) return;
+
+  // הסרת Schema קודמת אם קיימת (למשל אם הפונקציה רצה פעמיים)
+  const existing = document.getElementById('items-schema');
+  if (existing) existing.remove();
+
+  const PERSON = {
+    "@type": "Person",
+    "name": "ד״ר לאה הבר-גדליה",
+    "alternateName": "Dr. Lea Haber-Gedalia",
+    "jobTitle": "חוקרת גנאלוגית מומחית",
+    "url": "https://geniexperts.com/#founder"
+  };
+
+  const ORG_ILAM = {
+    "@type": "Organization",
+    "name": "עיל״ם — העמותה הישראלית לחקר שורשי המשפחה",
+    "alternateName": "ILAM"
+  };
+
+  const ORG_GENIEXPERTS = {
+    "@type": "Organization",
+    "@id": "https://geniexperts.com/#org",
+    "name": "GeniExperts",
+    "url": "https://geniexperts.com/"
+  };
+
+  const itemListElements = items.map((item, index) => {
+    const baseUrl = `https://geniexperts.com/insights/`;
+    let workSchema;
+
+    if (item.type === 'lecture') {
+      // סרטון ביוטיוב
+      workSchema = {
+        "@type": "VideoObject",
+        "name": item.title.he,
+        "alternateName": item.title.en,
+        "description": item.summary.he,
+        "thumbnailUrl": item.thumb.src || `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`,
+        "uploadDate": item.publishDate,
+        "contentUrl": item.sourceUrl,
+        "embedUrl": item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}` : item.sourceUrl,
+        "actor": PERSON,
+        "publisher": item.sourceName?.he?.includes('עיל') ? ORG_ILAM : ORG_GENIEXPERTS,
+        "inLanguage": "he"
+      };
+    } else if (item.type === 'deck') {
+      // מצגת לימודית
+      workSchema = {
+        "@type": "PresentationDigitalDocument",
+        "name": item.title.he,
+        "alternateName": item.title.en,
+        "description": item.summary.he,
+        "author": PERSON,
+        "publisher": item.sourceName?.he?.includes('עיל') ? ORG_ILAM : ORG_GENIEXPERTS,
+        "datePublished": item.publishDate,
+        "inLanguage": "he",
+        "url": item.sourceUrl || baseUrl
+      };
+    } else if (item.type === 'article') {
+      // כתבה
+      workSchema = {
+        "@type": "Article",
+        "headline": item.title.he,
+        "alternativeHeadline": item.title.en,
+        "description": item.summary.he,
+        "author": PERSON,
+        "publisher": ORG_GENIEXPERTS,
+        "datePublished": item.publishDate,
+        "inLanguage": "he",
+        "url": item.sourceUrl || baseUrl
+      };
+    } else {
+      // סוג לא מוכר — דילוג
+      return null;
+    }
+
+    return {
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": workSchema
+    };
+  }).filter(x => x !== null);
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": "https://geniexperts.com/insights/#items",
+    "name": "פריטי מרכז הידע הגנאלוגי",
+    "numberOfItems": itemListElements.length,
+    "itemListElement": itemListElements
+  };
+
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.id = 'items-schema';
+  script.textContent = JSON.stringify(schema, null, 2);
+  document.head.appendChild(script);
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', async () => {
@@ -943,6 +1050,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // showErrorState רק אם יש בעיית חיבור ידועה (כבר נרשמה ל-console)
   }
 
+  injectItemsSchema(INSIGHTS_LOADED);
   updateFilterCounts();
   renderInsights('all');
 });
