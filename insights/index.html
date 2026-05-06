@@ -731,14 +731,14 @@ function renderThumb(item) {
 
   let thumbInner = '';
   if (thumb.type === 'image') {
-    // Fallback: אם התמונה הראשית לא נטענה (למשל maxresdefault לסרטון יוטיוב ישן),
-    // ננסה גרסה איכותית אחרת. hqdefault תמיד קיים לכל סרטון יוטיוב.
+    // אם התמונה היא maxresdefault של יוטיוב (שלפעמים לא קיים) - נשמור fallback ל-hqdefault
+    // הטיפול עצמו ב-attachThumbFallbacks() אחרי שה-DOM מוכן
     const fallback = thumb.src && thumb.src.includes('maxresdefault.jpg')
       ? thumb.src.replace('maxresdefault.jpg', 'hqdefault.jpg')
-      : thumb.src;
+      : '';
     thumbInner = `
       <img src="${thumb.src}" alt="${thumb.alt.he}" loading="lazy"
-           onerror="if(this.src!=='${fallback}'){this.src='${fallback}';}">
+           ${fallback ? `data-fallback="${fallback}"` : ''}>
       <div class="insight-thumb-overlay"></div>
     `;
   } else if (thumb.type === 'custom') {
@@ -832,6 +832,30 @@ function renderInsights(filter) {
   }
 
   grid.innerHTML = items.map(renderCard).join('');
+  attachThumbFallbacks();
+}
+
+/* מחבר event listener לכל תמונת thumbnail עם data-fallback.
+   אם התמונה הראשית נכשלה (404 או שגיאה אחרת), מחליפים אוטומטית ל-fallback.
+   זה הפתרון לסרטוני יוטיוב ישנים שאין להם maxresdefault.jpg. */
+function attachThumbFallbacks() {
+  document.querySelectorAll('.insight-thumb img[data-fallback]').forEach(img => {
+    img.addEventListener('error', function handleError() {
+      const fallback = this.getAttribute('data-fallback');
+      if (fallback && this.src !== fallback) {
+        this.src = fallback;
+        // אחרי שהחלפנו - מסירים את ה-listener שלא יעבוד שוב
+        this.removeEventListener('error', handleError);
+      }
+    });
+    // אם התמונה כבר נכשלה לפני שהוספנו את ה-listener (קאש למשל) - בדיקה נוספת
+    if (img.complete && img.naturalWidth === 0) {
+      const fallback = img.getAttribute('data-fallback');
+      if (fallback && img.src !== fallback) {
+        img.src = fallback;
+      }
+    }
+  });
 }
 
 /* פילטור לפי לחיצה על כפתור */
